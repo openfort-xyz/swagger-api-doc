@@ -3105,6 +3105,1403 @@
                 }
             }
         },
+        "/iam/v1/sessions": {
+            "post": {
+                "operationId": "Refresh",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "player": {
+                                                "id": "pla_...",
+                                                "object": "player",
+                                                "createdAt": 1234567890,
+                                                "linkedAccounts": [
+                                                    {
+                                                        "provider": "email",
+                                                        "email": "jaume@openfort.xyz",
+                                                        "disabled": false
+                                                    }
+                                                ]
+                                            },
+                                            "token": "abcd....",
+                                            "refreshToken": "efgh...."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                },
+                "description": "Get or create a new session for the player based on the refresh token.",
+                "summary": "Refresh or create auth session.",
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RefreshTokenRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/v1/sessions/logout": {
+            "post": {
+                "operationId": "Logout",
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized - No active session or invalid token"
+                    }
+                },
+                "description": "When using Openfort Auth, the endpoint logs out the player.",
+                "summary": "Log out a player.",
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk_access_token": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LogoutRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/v1/siwe/init": {
+            "post": {
+                "operationId": "InitSIWE",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SIWEInitResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "address": "0x1234567890abcdef1234567890abcdef12345678",
+                                            "nonce": "1234567890",
+                                            "expiresAt": 1234567890
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                },
+                "description": "Create a challenge to link external wallet to the player.",
+                "summary": "Initialize SIWE.",
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-game",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SIWERequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/v1/siwe/authenticate": {
+            "post": {
+                "operationId": "AuthenticateSIWE",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "player": {
+                                                "id": "pla_...",
+                                                "object": "player",
+                                                "createdAt": 1234567890,
+                                                "linkedAccounts": [
+                                                    {
+                                                        "provider": "email",
+                                                        "email": "jaume@openfort.xyz",
+                                                        "disabled": false
+                                                    }
+                                                ]
+                                            },
+                                            "token": "abcd....",
+                                            "refreshToken": "efgh...."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Successfully logged out"
+                    },
+                    "401": {
+                        "description": "Unauthorized - No active session or invalid token"
+                    }
+                },
+                "summary": "Authenticate player with SIWE",
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SIWEAuthenticateRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/v1/siwe/unlink": {
+            "post": {
+                "operationId": "UnlinkSIWE",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthPlayerResponse"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Successfully logged out"
+                    },
+                    "401": {
+                        "description": "Unauthorized - No active session or invalid token"
+                    }
+                },
+                "summary": "Unlink external wallet.",
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk_access_token": []
+                    },
+                    {
+                        "pk_third_party": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SIWERequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/v1/siwe/link": {
+            "post": {
+                "operationId": "LinkSIWE",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthPlayerResponse"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Successfully logged out"
+                    },
+                    "401": {
+                        "description": "Unauthorized - No active session or invalid token"
+                    }
+                },
+                "summary": "Link external wallet.",
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk_access_token": []
+                    },
+                    {
+                        "pk_third_party": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SIWEAuthenticateRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/v1/password/signup": {
+            "post": {
+                "operationId": "SignupEmailPassword",
+                "responses": {
+                    "201": {
+                        "description": "Success response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "$ref": "#/components/schemas/AuthResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ActionRequiredResponse"
+                                        }
+                                    ]
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "player": {
+                                                "id": "pla_...",
+                                                "object": "player",
+                                                "createdAt": 1234567890,
+                                                "linkedAccounts": [
+                                                    {
+                                                        "provider": "email",
+                                                        "email": "jaume@openfort.xyz",
+                                                        "disabled": false
+                                                    }
+                                                ]
+                                            },
+                                            "token": "abcd....",
+                                            "refreshToken": "efgh...."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Api key is not valid"
+                    },
+                    "409": {
+                        "description": "User already exists"
+                    }
+                },
+                "description": "Create and authenticate a player based on email and password.",
+                "summary": "Email and password signup.",
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-game",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SignupRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/v1/password/login": {
+            "post": {
+                "operationId": "LoginEmailPassword",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "$ref": "#/components/schemas/AuthResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ActionRequiredResponse"
+                                        }
+                                    ]
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "player": {
+                                                "id": "pla_...",
+                                                "object": "player",
+                                                "createdAt": 1234567890,
+                                                "linkedAccounts": [
+                                                    {
+                                                        "provider": "email",
+                                                        "email": "jaume@openfort.xyz",
+                                                        "disabled": false
+                                                    }
+                                                ]
+                                            },
+                                            "token": "abcd....",
+                                            "refreshToken": "efgh...."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                },
+                "description": "Authenticate a player based on email and password.",
+                "summary": "Email and password login.",
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-game",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/v1/password/request_email_verification": {
+            "post": {
+                "operationId": "RequestEmailVerification",
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                },
+                "description": "Start the Email Verification process for a player.",
+                "summary": "Request an Email Verification.",
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestVerifyEmailRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/v1/password/verify_email": {
+            "post": {
+                "operationId": "VerifyEmail",
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                },
+                "description": "Verify a player's email address.",
+                "summary": "Verify an email.",
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VerifyEmailRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/v1/password/request_reset": {
+            "post": {
+                "operationId": "RequestResetPassword",
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                },
+                "description": "Start the Reset process for a player's password.",
+                "summary": "Request a Reset password.",
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestResetPasswordRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/v1/password/reset": {
+            "post": {
+                "operationId": "ResetPassword",
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                },
+                "description": "Reset a player's password.",
+                "summary": "Reset a password.",
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ResetPasswordRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/v1/password/link": {
+            "post": {
+                "operationId": "LinkEmail",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "$ref": "#/components/schemas/AuthPlayerResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ActionRequiredResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk_access_token": []
+                    },
+                    {
+                        "pk_third_party": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-game",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/v1/password/unlink": {
+            "post": {
+                "operationId": "UnlinkEmail",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthPlayerResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk_access_token": []
+                    },
+                    {
+                        "pk_third_party": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UnlinkEmailRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/v1/oidc/login": {
+            "post": {
+                "operationId": "LoginOIDC",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "player": {
+                                                "id": "pla_...",
+                                                "object": "player",
+                                                "createdAt": 1234567890,
+                                                "linkedAccounts": [
+                                                    {
+                                                        "provider": "email",
+                                                        "email": "jaume@openfort.xyz",
+                                                        "disabled": false
+                                                    }
+                                                ]
+                                            },
+                                            "token": "abcd....",
+                                            "refreshToken": "efgh...."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                },
+                "description": "Authenticate a player from an identity token.",
+                "summary": "OIDC Identity token.",
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-game",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginOIDCRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/v1/oauth/init": {
+            "post": {
+                "operationId": "InitOAuth",
+                "responses": {
+                    "201": {
+                        "description": "Success response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OAuthResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Api key is not valid"
+                    }
+                },
+                "summary": "Initialize OAuth.",
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-game",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OAuthInitRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/v1/oauth/init_link": {
+            "post": {
+                "operationId": "LinkOAuth",
+                "responses": {
+                    "201": {
+                        "description": "Success response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OAuthResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Api key is not valid"
+                    }
+                },
+                "summary": "Initialize Link OAuth.",
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk_access_token": []
+                    },
+                    {
+                        "pk_third_party": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-game",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OAuthInitRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/v1/oauth/link": {
+            "post": {
+                "operationId": "LinkThirdParty",
+                "responses": {
+                    "201": {
+                        "description": "Success response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthPlayerResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Api key is not valid"
+                    }
+                },
+                "summary": "Initialize Link OAuth.",
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk_access_token": []
+                    },
+                    {
+                        "pk_third_party": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-game",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ThirdPartyLinkRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/v1/oauth/pool": {
+            "post": {
+                "operationId": "PoolOAuth",
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Api key is not valid"
+                    }
+                },
+                "summary": "Initialize OAuth.",
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "key",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/iam/v1/oauth/login_id_token": {
+            "post": {
+                "operationId": "LoginWithIdToken",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "player": {
+                                                "id": "pla_...",
+                                                "object": "player",
+                                                "createdAt": 1234567890,
+                                                "linkedAccounts": [
+                                                    {
+                                                        "provider": "email",
+                                                        "email": "jaume@openfort.xyz",
+                                                        "disabled": false
+                                                    }
+                                                ]
+                                            },
+                                            "token": "abcd....",
+                                            "refreshToken": "efgh...."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                },
+                "summary": "Authenticate player with oauth token.",
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk": []
+                    },
+                    {
+                        "pk_third_party": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginWithIdTokenRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/v1/oauth/third_party": {
+            "post": {
+                "operationId": "ThirdParty",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthPlayerResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "player": {
+                                                "id": "pla_...",
+                                                "object": "player",
+                                                "createdAt": 1234567890,
+                                                "linkedAccounts": [
+                                                    {
+                                                        "provider": "email",
+                                                        "email": "jaume@openfort.xyz",
+                                                        "disabled": false
+                                                    }
+                                                ]
+                                            },
+                                            "token": "abcd....",
+                                            "refreshToken": "efgh...."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                },
+                "summary": "Verify oauth token of a third party auth provider.",
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk": []
+                    },
+                    {
+                        "pk_third_party": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-game",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ThirdPartyOAuthRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/v1/oauth/verify": {
+            "post": {
+                "operationId": "VerifyOAuthToken",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlayerResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "id": "pla_00000000-0000-0000-0000-000000000000",
+                                            "createdAt": 1689869074,
+                                            "object": "player",
+                                            "description": "John Smith",
+                                            "metadata": {
+                                                "firstName": "John",
+                                                "lastName": "Smith"
+                                            },
+                                            "name": "My Player",
+                                            "accounts": [
+                                                {
+                                                    "id": "acc_8888888888-8888-8888-8888-888888888888"
+                                                }
+                                            ],
+                                            "transactionIntents": [
+                                                {
+                                                    "id": "tin_AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                },
+                "description": "The endpoint verifies the token generated by OAuth provider and retrieves a corresponding player.\n\nReturns the latest 10 transaction intents for the player.",
+                "summary": "Retrieve player by oauth token.",
+                "tags": [
+                    "AdminAuthentication",
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "sk": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AuthenticateOAuthRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/v1/oauth/unlink": {
+            "post": {
+                "operationId": "UnlinkOAuth",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthPlayerResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "id": "pla_...",
+                                            "object": "player",
+                                            "createdAt": 1234567890,
+                                            "linkedAccounts": [
+                                                {
+                                                    "provider": "email",
+                                                    "email": "jaume@openfort.xyz",
+                                                    "disabled": false
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                },
+                "summary": "Unlink OAuth account",
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk_access_token": []
+                    },
+                    {
+                        "pk_third_party": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UnlinkOAuthRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/iam/v1/guest": {
+            "post": {
+                "operationId": "RegisterGuest",
+                "responses": {
+                    "201": {
+                        "description": "Success response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "player": {
+                                                "id": "pla_...",
+                                                "object": "player",
+                                                "createdAt": 1234567890,
+                                                "linkedAccounts": [
+                                                    {
+                                                        "provider": "email",
+                                                        "email": "jaume@openfort.xyz",
+                                                        "disabled": false
+                                                    }
+                                                ]
+                                            },
+                                            "token": "abcd....",
+                                            "refreshToken": "efgh...."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Api key is not valid"
+                    },
+                    "409": {
+                        "description": "User already exists"
+                    }
+                },
+                "description": "Create a guest player.",
+                "summary": "Create a guest player.",
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-game",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/iam/v1/{publishable_key}/jwks.json": {
+            "get": {
+                "operationId": "GetJwks",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/JwtKeyResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "keys": [
+                                                {
+                                                    "kty": "EC",
+                                                    "x": "rUNYXnOcdImB6lRAMwq1lNaZ8wc5Giqa_jLeO0ChKac",
+                                                    "y": "vl9yeaTYJXCMY1283SRrOBHXwpvqLjrITGjvqF-cshQ",
+                                                    "crv": "P-256",
+                                                    "kid": "_VqPj1iUH1ij6gRNjYnY4uNc083QYdNxc4h-FlnhWqs",
+                                                    "use": "sig",
+                                                    "alg": "ES256"
+                                                },
+                                                {
+                                                    "kty": "EC",
+                                                    "x": "RzfDvBCyE9UR_-0wiIMtSHiAlnBIfLvYhCMLxrAb4xo",
+                                                    "y": "h07rmvlyRsqhOGfapJqMy8NgqVyhwy6Iz2VlNbvpiOA",
+                                                    "crv": "P-256",
+                                                    "kid": "z6rhkcbjp_G2wAck3L_sKoQAWMofLsxVYnYIru17Ps4",
+                                                    "use": "sig",
+                                                    "alg": "ES256"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Get the jwks.json file.\n\nYou can use the jwks.json file to verify the signature of a JWT token issued by Openfort Auth.",
+                "summary": "Get the jwks.json file.",
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [],
+                "parameters": [
+                    {
+                        "description": "Specifies the project publishable key (starts with pk_).",
+                        "in": "path",
+                        "name": "publishable_key",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "pk_test_4194ad24-c818-4e5c-b003-9cc2aa7df53b"
+                    }
+                ]
+            }
+        },
+        "/iam/v1/me": {
+            "get": {
+                "operationId": "Me",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthPlayerResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "id": "pla_...",
+                                            "object": "player",
+                                            "createdAt": 1234567890,
+                                            "linkedAccounts": [
+                                                {
+                                                    "provider": "email",
+                                                    "email": "jaume@openfort.xyz",
+                                                    "disabled": false
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error response."
+                    }
+                },
+                "tags": [
+                    "auth v1"
+                ],
+                "security": [
+                    {
+                        "pk_access_token": []
+                    },
+                    {
+                        "pk_third_party": []
+                    }
+                ],
+                "parameters": []
+            }
+        },
         "/iam/v2/me": {
             "get": {
                 "operationId": "meV2",
