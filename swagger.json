@@ -508,9 +508,6 @@
                         "pk_access_token": []
                     },
                     {
-                        "pk_identity_token": []
-                    },
-                    {
                         "better_auth": []
                     }
                 ],
@@ -666,9 +663,6 @@
                         "pk_access_token": []
                     },
                     {
-                        "pk_identity_token": []
-                    },
-                    {
                         "better_auth": []
                     }
                 ],
@@ -780,9 +774,6 @@
                     },
                     {
                         "pk_access_token": []
-                    },
-                    {
-                        "pk_identity_token": []
                     },
                     {
                         "better_auth": []
@@ -933,9 +924,6 @@
                     },
                     {
                         "sk": []
-                    },
-                    {
-                        "pk_identity_token": []
                     }
                 ],
                 "parameters": [
@@ -1154,9 +1142,6 @@
                         "pk_access_token": []
                     },
                     {
-                        "pk_identity_token": []
-                    },
-                    {
                         "better_auth": []
                     }
                 ],
@@ -1248,9 +1233,6 @@
                         "pk_access_token": []
                     },
                     {
-                        "pk_identity_token": []
-                    },
-                    {
                         "better_auth": []
                     }
                 ],
@@ -1337,9 +1319,6 @@
                     },
                     {
                         "sk": []
-                    },
-                    {
-                        "pk_identity_token": []
                     },
                     {
                         "better_auth": []
@@ -2719,6 +2698,954 @@
                 }
             }
         },
+        "/v2/fee-sponsorship": {
+            "get": {
+                "operationId": "ListFeeSponsorships",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FeeSponsorshipListResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                },
+                "description": "Returns a list of fee sponsorship policies.\n\nFee sponsorship policies define gas sponsorship rules by linking to a policy\nwith rich criteria (evmAddress, ethValue, evmNetwork, evmData).",
+                "summary": "List fee sponsorship policies.",
+                "tags": [
+                    "Fee Sponsorship"
+                ],
+                "security": [
+                    {
+                        "sk": []
+                    },
+                    {
+                        "user_project": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "Specifies the maximum number of records to return.",
+                        "in": "query",
+                        "name": "limit",
+                        "required": false,
+                        "schema": {
+                            "format": "int32",
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "description": "Specifies the offset for the first records to return.",
+                        "in": "query",
+                        "name": "skip",
+                        "required": false,
+                        "schema": {
+                            "format": "int32",
+                            "type": "integer",
+                            "minimum": 0
+                        }
+                    },
+                    {
+                        "description": "Specifies the order in which to sort the results.",
+                        "in": "query",
+                        "name": "order",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/components/schemas/Prisma.SortOrder"
+                        }
+                    },
+                    {
+                        "description": "Filter by policy name (partial match).",
+                        "in": "query",
+                        "name": "name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "DeFi"
+                    },
+                    {
+                        "description": "Filter by chain ID.",
+                        "in": "query",
+                        "name": "chainId",
+                        "required": false,
+                        "schema": {
+                            "format": "int32",
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "description": "Filter by enabled status.",
+                        "in": "query",
+                        "name": "enabled",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": true
+                    },
+                    {
+                        "description": "Include deleted policies.",
+                        "in": "query",
+                        "name": "deleted",
+                        "required": false,
+                        "schema": {
+                            "default": false,
+                            "type": "boolean"
+                        },
+                        "example": false
+                    }
+                ]
+            },
+            "post": {
+                "operationId": "CreateFeeSponsorship",
+                "responses": {
+                    "201": {
+                        "description": "Created.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FeeSponsorshipResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request."
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                },
+                "description": "Creates a new fee sponsorship.\n\nThis endpoint requires linking to an existing policy via `policyId`.\nCreate the policy first via `/v2/policies` with your criteria rules.\n\n**Workflow:**\n1. Create a policy via `/v2/policies` with criteria rules\n2. Create a fee sponsorship with `policyId` linking to that policy\n\n**Supported criteria types:**\n- `evmAddress`: Filter by recipient address (in/not in)\n- `ethValue`: Filter by ETH amount (<=, >=, <, >)\n- `evmNetwork`: Filter by chain ID (in/not in)\n- `evmData`: Filter by function selector or parameters",
+                "summary": "Create a fee sponsorship.",
+                "tags": [
+                    "Fee Sponsorship"
+                ],
+                "security": [
+                    {
+                        "sk": []
+                    },
+                    {
+                        "user_project": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateFeeSponsorshipRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v2/fee-sponsorship/{feeSponsorshipId}": {
+            "get": {
+                "operationId": "GetFeeSponsorship",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FeeSponsorshipResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "404": {
+                        "description": "Not found."
+                    }
+                },
+                "description": "Retrieves the details of a fee sponsorship.",
+                "summary": "Get a fee sponsorship.",
+                "tags": [
+                    "Fee Sponsorship"
+                ],
+                "security": [
+                    {
+                        "sk": []
+                    },
+                    {
+                        "user_project": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "Specifies the unique fee sponsorship ID (starts with pol_).",
+                        "in": "path",
+                        "name": "feeSponsorshipId",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "pol_48eeba57-2cd5-4159-a2cb-057a23a35e65"
+                    }
+                ]
+            },
+            "put": {
+                "operationId": "UpdateFeeSponsorship",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FeeSponsorshipResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request."
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "404": {
+                        "description": "Not found."
+                    }
+                },
+                "description": "Updates a fee sponsorship.",
+                "summary": "Update a fee sponsorship.",
+                "tags": [
+                    "Fee Sponsorship"
+                ],
+                "security": [
+                    {
+                        "sk": []
+                    },
+                    {
+                        "user_project": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "Specifies the unique fee sponsorship ID (starts with pol_).",
+                        "in": "path",
+                        "name": "feeSponsorshipId",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "pol_48eeba57-2cd5-4159-a2cb-057a23a35e65"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateFeeSponsorshipRequest"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "DeleteFeeSponsorship",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FeeSponsorshipDeleteResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "404": {
+                        "description": "Not found."
+                    }
+                },
+                "description": "Deletes a fee sponsorship.\n\nThis is a soft delete - the fee sponsorship is marked as deleted but not removed from the database.",
+                "summary": "Delete a fee sponsorship.",
+                "tags": [
+                    "Fee Sponsorship"
+                ],
+                "security": [
+                    {
+                        "sk": []
+                    },
+                    {
+                        "user_project": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "Specifies the unique fee sponsorship ID (starts with pol_).",
+                        "in": "path",
+                        "name": "feeSponsorshipId",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "pol_48eeba57-2cd5-4159-a2cb-057a23a35e65"
+                    }
+                ]
+            }
+        },
+        "/v2/fee-sponsorship/{feeSponsorshipId}/enable": {
+            "put": {
+                "operationId": "EnableFeeSponsorship",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FeeSponsorshipResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "404": {
+                        "description": "Not found."
+                    }
+                },
+                "description": "Enables a fee sponsorship.",
+                "summary": "Enable a fee sponsorship.",
+                "tags": [
+                    "Fee Sponsorship"
+                ],
+                "security": [
+                    {
+                        "sk": []
+                    },
+                    {
+                        "user_project": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "Specifies the unique fee sponsorship ID (starts with pol_).",
+                        "in": "path",
+                        "name": "feeSponsorshipId",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "pol_48eeba57-2cd5-4159-a2cb-057a23a35e65"
+                    }
+                ]
+            }
+        },
+        "/v2/fee-sponsorship/{feeSponsorshipId}/disable": {
+            "put": {
+                "operationId": "DisableFeeSponsorship",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FeeSponsorshipResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "404": {
+                        "description": "Not found."
+                    }
+                },
+                "description": "Disables a fee sponsorship.",
+                "summary": "Disable a fee sponsorship.",
+                "tags": [
+                    "Fee Sponsorship"
+                ],
+                "security": [
+                    {
+                        "sk": []
+                    },
+                    {
+                        "user_project": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "Specifies the unique fee sponsorship ID (starts with pol_).",
+                        "in": "path",
+                        "name": "feeSponsorshipId",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "pol_48eeba57-2cd5-4159-a2cb-057a23a35e65"
+                    }
+                ]
+            }
+        },
+        "/v2/accounts/backend": {
+            "get": {
+                "operationId": "listBackendWallets",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BackendWalletListResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                },
+                "description": "List backend wallets.\n\nReturns a paginated list of backend wallets for the project.",
+                "summary": "List backend wallets.",
+                "tags": [
+                    "Backend Wallets"
+                ],
+                "security": [
+                    {
+                        "sk": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "Number of wallets to return (default: 10, max: 100).",
+                        "in": "query",
+                        "name": "limit",
+                        "required": false,
+                        "schema": {
+                            "format": "int32",
+                            "type": "integer"
+                        },
+                        "example": 10
+                    },
+                    {
+                        "description": "Number of wallets to skip (for pagination).",
+                        "in": "query",
+                        "name": "skip",
+                        "required": false,
+                        "schema": {
+                            "format": "int32",
+                            "type": "integer"
+                        },
+                        "example": 0
+                    },
+                    {
+                        "description": "Filter by chain type.",
+                        "in": "query",
+                        "name": "chainType",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "EVM",
+                                "SVM"
+                            ]
+                        },
+                        "example": "EVM"
+                    },
+                    {
+                        "description": "Filter by wallet address.",
+                        "in": "query",
+                        "name": "address",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
+                    },
+                    {
+                        "description": "Filter by associated wallet ID (starts with `pla_`).",
+                        "in": "query",
+                        "name": "wallet",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "pla_e0b84653-1741-4a3d-9e91-2b0fd2942f60"
+                    }
+                ]
+            },
+            "post": {
+                "operationId": "createBackendWallet",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateBackendWalletResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                },
+                "description": "Create a new backend wallet account.\n\nGenerates a new keypair securely in the backend wallet system.\nThe private key is stored encrypted and never exposed.",
+                "summary": "Create backend wallet.",
+                "tags": [
+                    "Backend Wallets"
+                ],
+                "security": [
+                    {
+                        "wallet_auth": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateBackendWalletRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v2/accounts/backend/{id}": {
+            "get": {
+                "operationId": "getBackendWallet",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BackendWalletResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "404": {
+                        "description": "Wallet not found."
+                    }
+                },
+                "description": "Get backend wallet details.\n\nReturns details for a specific backend wallet.",
+                "summary": "Get backend wallet.",
+                "tags": [
+                    "Backend Wallets"
+                ],
+                "security": [
+                    {
+                        "sk": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "The wallet ID (starts with acc_).",
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            },
+            "put": {
+                "operationId": "updateBackendWallet",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateBackendWalletResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request."
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "404": {
+                        "description": "Wallet not found."
+                    }
+                },
+                "description": "Update a backend wallet.\n\nCurrently supports upgrading an EOA backend wallet to a Delegated Account (EIP-7702).\nProvide the target accountType along with the required delegation parameters (chainId, implementationType).",
+                "summary": "Update backend wallet.",
+                "tags": [
+                    "Backend Wallets"
+                ],
+                "security": [
+                    {
+                        "sk": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "The wallet ID (starts with acc_).",
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBackendWalletRequest"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "deleteBackendWallet",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeleteBackendWalletResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "404": {
+                        "description": "Wallet not found."
+                    }
+                },
+                "description": "Delete a backend wallet.\n\nPermanently deletes a backend wallet and its associated private key.",
+                "summary": "Delete backend wallet.",
+                "tags": [
+                    "Backend Wallets"
+                ],
+                "security": [
+                    {
+                        "wallet_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "The wallet ID (starts with acc_).",
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/v2/accounts/backend/{id}/sign": {
+            "post": {
+                "operationId": "sign",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SignResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "404": {
+                        "description": "Account not found."
+                    }
+                },
+                "description": "Sign data via backend wallet.\n\nSigns the provided data using the account's private key managed by the backend wallet.\nThe private key is securely stored and never exposed.",
+                "summary": "Sign data via backend wallet.",
+                "tags": [
+                    "Backend Wallets"
+                ],
+                "security": [
+                    {
+                        "wallet_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "The account ID (starts with acc_).",
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SignRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v2/accounts/backend/{id}/export": {
+            "post": {
+                "operationId": "exportPrivateKey",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExportPrivateKeyResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "404": {
+                        "description": "Account not found."
+                    }
+                },
+                "description": "Export private key with E2E encryption via backend wallet.\n\nExports the account's private key encrypted using RSA-4096 OAEP SHA-256.\nThe client must provide their ephemeral RSA-4096 public key (base64 SPKI DER format).\nThe response contains the encrypted private key that can be decrypted with the client's private key.",
+                "summary": "Export private key (E2E encrypted).",
+                "tags": [
+                    "Backend Wallets"
+                ],
+                "security": [
+                    {
+                        "wallet_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "The account ID (starts with acc_).",
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ExportPrivateKeyRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v2/accounts/backend/import": {
+            "post": {
+                "operationId": "importPrivateKey",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ImportPrivateKeyResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid key material."
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                },
+                "description": "Import private key with E2E encryption via backend wallet.\n\nImports a private key into the backend wallet system.\nThe private key must be encrypted using RSA-4096 OAEP SHA-256 with the server's\nstatic import public key (obtain out-of-band from SDK or documentation).",
+                "summary": "Import private key (E2E encrypted).",
+                "tags": [
+                    "Backend Wallets"
+                ],
+                "security": [
+                    {
+                        "wallet_auth": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ImportPrivateKeyRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v2/accounts/backend/register-secret": {
+            "post": {
+                "operationId": "registerWalletSecret",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RegisterWalletSecretResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                },
+                "description": "Register a new wallet secret (authentication key).\n\nRegisters an ECDSA P-256 public key that will be used to verify\nX-Wallet-Auth JWT signatures. This is required before using WALLET_AUTH\nfor other backend wallet operations.\n\nUses provided-key authentication: the request must include a walletAuthToken\nJWT signed by the private key corresponding to the publicKey being registered.\nThis proves possession of the private key without transmitting it.\n\nNote: Only ONE active secret is allowed per project. This call fails if an\nactive secret already exists; use rotateWalletSecret to replace an existing secret.",
+                "summary": "Register wallet secret.",
+                "tags": [
+                    "Backend Wallets"
+                ],
+                "security": [
+                    {
+                        "user_project": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterWalletSecretRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v2/accounts/backend/revoke-secret": {
+            "post": {
+                "operationId": "revokeWalletSecret",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RevokeWalletSecretResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "404": {
+                        "description": "Secret not found."
+                    }
+                },
+                "description": "Revoke a wallet secret (authentication key).\n\nPermanently revokes a wallet secret so it can no longer be used\nfor X-Wallet-Auth JWT signing.",
+                "summary": "Revoke wallet secret.",
+                "tags": [
+                    "Backend Wallets"
+                ],
+                "security": [
+                    {
+                        "user_project": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RevokeWalletSecretRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v2/accounts/backend/rotate-secrets": {
+            "post": {
+                "operationId": "rotateWalletSecret",
+                "responses": {
+                    "200": {
+                        "description": "Successful response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RotateWalletSecretResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                },
+                "description": "Rotate wallet secret (authentication key).\n\nReplaces the current wallet secret (ECDSA P-256 public key) used for\nX-Wallet-Auth JWT signing. The old secret will be marked as \"rotated\"\nand immediately becomes unusable (no grace period).\n\nUses provided-key authentication: the request must include a walletAuthToken\nJWT signed by the private key corresponding to the NEW publicKey being registered.\nThis proves possession of the new private key without transmitting it.",
+                "summary": "Rotate wallet secret.",
+                "tags": [
+                    "Backend Wallets"
+                ],
+                "security": [
+                    {
+                        "user_project": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RotateWalletSecretRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/v2/accounts": {
             "get": {
                 "operationId": "getAccountsV2",
@@ -3103,1403 +4030,6 @@
                         }
                     }
                 }
-            }
-        },
-        "/iam/v1/sessions": {
-            "post": {
-                "operationId": "Refresh",
-                "responses": {
-                    "200": {
-                        "description": "Ok",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AuthResponse"
-                                },
-                                "examples": {
-                                    "Example 1": {
-                                        "value": {
-                                            "player": {
-                                                "id": "pla_...",
-                                                "object": "player",
-                                                "createdAt": 1234567890,
-                                                "linkedAccounts": [
-                                                    {
-                                                        "provider": "email",
-                                                        "email": "jaume@openfort.xyz",
-                                                        "disabled": false
-                                                    }
-                                                ]
-                                            },
-                                            "token": "abcd....",
-                                            "refreshToken": "efgh...."
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": ""
-                    }
-                },
-                "description": "Get or create a new session for the player based on the refresh token.",
-                "summary": "Refresh or create auth session.",
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk": []
-                    }
-                ],
-                "parameters": [],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/RefreshTokenRequest"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/v1/sessions/logout": {
-            "post": {
-                "operationId": "Logout",
-                "responses": {
-                    "204": {
-                        "description": "No content"
-                    },
-                    "401": {
-                        "description": "Unauthorized - No active session or invalid token"
-                    }
-                },
-                "description": "When using Openfort Auth, the endpoint logs out the player.",
-                "summary": "Log out a player.",
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk_access_token": []
-                    }
-                ],
-                "parameters": [],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/LogoutRequest"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/v1/siwe/init": {
-            "post": {
-                "operationId": "InitSIWE",
-                "responses": {
-                    "200": {
-                        "description": "Ok",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SIWEInitResponse"
-                                },
-                                "examples": {
-                                    "Example 1": {
-                                        "value": {
-                                            "address": "0x1234567890abcdef1234567890abcdef12345678",
-                                            "nonce": "1234567890",
-                                            "expiresAt": 1234567890
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": ""
-                    }
-                },
-                "description": "Create a challenge to link external wallet to the player.",
-                "summary": "Initialize SIWE.",
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "x-game",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/SIWERequest"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/v1/siwe/authenticate": {
-            "post": {
-                "operationId": "AuthenticateSIWE",
-                "responses": {
-                    "200": {
-                        "description": "Ok",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AuthResponse"
-                                },
-                                "examples": {
-                                    "Example 1": {
-                                        "value": {
-                                            "player": {
-                                                "id": "pla_...",
-                                                "object": "player",
-                                                "createdAt": 1234567890,
-                                                "linkedAccounts": [
-                                                    {
-                                                        "provider": "email",
-                                                        "email": "jaume@openfort.xyz",
-                                                        "disabled": false
-                                                    }
-                                                ]
-                                            },
-                                            "token": "abcd....",
-                                            "refreshToken": "efgh...."
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "204": {
-                        "description": "Successfully logged out"
-                    },
-                    "401": {
-                        "description": "Unauthorized - No active session or invalid token"
-                    }
-                },
-                "summary": "Authenticate player with SIWE",
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk": []
-                    }
-                ],
-                "parameters": [],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/SIWEAuthenticateRequest"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/v1/siwe/unlink": {
-            "post": {
-                "operationId": "UnlinkSIWE",
-                "responses": {
-                    "200": {
-                        "description": "Ok",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AuthPlayerResponse"
-                                }
-                            }
-                        }
-                    },
-                    "204": {
-                        "description": "Successfully logged out"
-                    },
-                    "401": {
-                        "description": "Unauthorized - No active session or invalid token"
-                    }
-                },
-                "summary": "Unlink external wallet.",
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk_access_token": []
-                    },
-                    {
-                        "pk_third_party": []
-                    }
-                ],
-                "parameters": [],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/SIWERequest"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/v1/siwe/link": {
-            "post": {
-                "operationId": "LinkSIWE",
-                "responses": {
-                    "200": {
-                        "description": "Ok",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AuthPlayerResponse"
-                                }
-                            }
-                        }
-                    },
-                    "204": {
-                        "description": "Successfully logged out"
-                    },
-                    "401": {
-                        "description": "Unauthorized - No active session or invalid token"
-                    }
-                },
-                "summary": "Link external wallet.",
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk_access_token": []
-                    },
-                    {
-                        "pk_third_party": []
-                    }
-                ],
-                "parameters": [],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/SIWEAuthenticateRequest"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/v1/password/signup": {
-            "post": {
-                "operationId": "SignupEmailPassword",
-                "responses": {
-                    "201": {
-                        "description": "Success response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "anyOf": [
-                                        {
-                                            "$ref": "#/components/schemas/AuthResponse"
-                                        },
-                                        {
-                                            "$ref": "#/components/schemas/ActionRequiredResponse"
-                                        }
-                                    ]
-                                },
-                                "examples": {
-                                    "Example 1": {
-                                        "value": {
-                                            "player": {
-                                                "id": "pla_...",
-                                                "object": "player",
-                                                "createdAt": 1234567890,
-                                                "linkedAccounts": [
-                                                    {
-                                                        "provider": "email",
-                                                        "email": "jaume@openfort.xyz",
-                                                        "disabled": false
-                                                    }
-                                                ]
-                                            },
-                                            "token": "abcd....",
-                                            "refreshToken": "efgh...."
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Api key is not valid"
-                    },
-                    "409": {
-                        "description": "User already exists"
-                    }
-                },
-                "description": "Create and authenticate a player based on email and password.",
-                "summary": "Email and password signup.",
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "x-game",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/SignupRequest"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/v1/password/login": {
-            "post": {
-                "operationId": "LoginEmailPassword",
-                "responses": {
-                    "200": {
-                        "description": "Ok",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "anyOf": [
-                                        {
-                                            "$ref": "#/components/schemas/AuthResponse"
-                                        },
-                                        {
-                                            "$ref": "#/components/schemas/ActionRequiredResponse"
-                                        }
-                                    ]
-                                },
-                                "examples": {
-                                    "Example 1": {
-                                        "value": {
-                                            "player": {
-                                                "id": "pla_...",
-                                                "object": "player",
-                                                "createdAt": 1234567890,
-                                                "linkedAccounts": [
-                                                    {
-                                                        "provider": "email",
-                                                        "email": "jaume@openfort.xyz",
-                                                        "disabled": false
-                                                    }
-                                                ]
-                                            },
-                                            "token": "abcd....",
-                                            "refreshToken": "efgh...."
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": ""
-                    }
-                },
-                "description": "Authenticate a player based on email and password.",
-                "summary": "Email and password login.",
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "x-game",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/LoginRequest"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/v1/password/request_email_verification": {
-            "post": {
-                "operationId": "RequestEmailVerification",
-                "responses": {
-                    "204": {
-                        "description": "No content"
-                    },
-                    "401": {
-                        "description": ""
-                    }
-                },
-                "description": "Start the Email Verification process for a player.",
-                "summary": "Request an Email Verification.",
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk": []
-                    }
-                ],
-                "parameters": [],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/RequestVerifyEmailRequest"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/v1/password/verify_email": {
-            "post": {
-                "operationId": "VerifyEmail",
-                "responses": {
-                    "204": {
-                        "description": "No content"
-                    },
-                    "401": {
-                        "description": ""
-                    }
-                },
-                "description": "Verify a player's email address.",
-                "summary": "Verify an email.",
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk": []
-                    }
-                ],
-                "parameters": [],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/VerifyEmailRequest"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/v1/password/request_reset": {
-            "post": {
-                "operationId": "RequestResetPassword",
-                "responses": {
-                    "204": {
-                        "description": "No content"
-                    },
-                    "401": {
-                        "description": ""
-                    }
-                },
-                "description": "Start the Reset process for a player's password.",
-                "summary": "Request a Reset password.",
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk": []
-                    }
-                ],
-                "parameters": [],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/RequestResetPasswordRequest"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/v1/password/reset": {
-            "post": {
-                "operationId": "ResetPassword",
-                "responses": {
-                    "204": {
-                        "description": "No content"
-                    },
-                    "401": {
-                        "description": ""
-                    }
-                },
-                "description": "Reset a player's password.",
-                "summary": "Reset a password.",
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk": []
-                    }
-                ],
-                "parameters": [],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ResetPasswordRequest"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/v1/password/link": {
-            "post": {
-                "operationId": "LinkEmail",
-                "responses": {
-                    "200": {
-                        "description": "Ok",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "anyOf": [
-                                        {
-                                            "$ref": "#/components/schemas/AuthPlayerResponse"
-                                        },
-                                        {
-                                            "$ref": "#/components/schemas/ActionRequiredResponse"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": ""
-                    }
-                },
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk_access_token": []
-                    },
-                    {
-                        "pk_third_party": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "x-game",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/LoginRequest"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/v1/password/unlink": {
-            "post": {
-                "operationId": "UnlinkEmail",
-                "responses": {
-                    "200": {
-                        "description": "Ok",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AuthPlayerResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": ""
-                    }
-                },
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk_access_token": []
-                    },
-                    {
-                        "pk_third_party": []
-                    }
-                ],
-                "parameters": [],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UnlinkEmailRequest"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/v1/oidc/login": {
-            "post": {
-                "operationId": "LoginOIDC",
-                "responses": {
-                    "200": {
-                        "description": "Ok",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AuthResponse"
-                                },
-                                "examples": {
-                                    "Example 1": {
-                                        "value": {
-                                            "player": {
-                                                "id": "pla_...",
-                                                "object": "player",
-                                                "createdAt": 1234567890,
-                                                "linkedAccounts": [
-                                                    {
-                                                        "provider": "email",
-                                                        "email": "jaume@openfort.xyz",
-                                                        "disabled": false
-                                                    }
-                                                ]
-                                            },
-                                            "token": "abcd....",
-                                            "refreshToken": "efgh...."
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": ""
-                    }
-                },
-                "description": "Authenticate a player from an identity token.",
-                "summary": "OIDC Identity token.",
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "x-game",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/LoginOIDCRequest"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/v1/oauth/init": {
-            "post": {
-                "operationId": "InitOAuth",
-                "responses": {
-                    "201": {
-                        "description": "Success response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/OAuthResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Api key is not valid"
-                    }
-                },
-                "summary": "Initialize OAuth.",
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "x-game",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/OAuthInitRequest"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/v1/oauth/init_link": {
-            "post": {
-                "operationId": "LinkOAuth",
-                "responses": {
-                    "201": {
-                        "description": "Success response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/OAuthResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Api key is not valid"
-                    }
-                },
-                "summary": "Initialize Link OAuth.",
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk_access_token": []
-                    },
-                    {
-                        "pk_third_party": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "x-game",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/OAuthInitRequest"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/v1/oauth/link": {
-            "post": {
-                "operationId": "LinkThirdParty",
-                "responses": {
-                    "201": {
-                        "description": "Success response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AuthPlayerResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Api key is not valid"
-                    }
-                },
-                "summary": "Initialize Link OAuth.",
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk_access_token": []
-                    },
-                    {
-                        "pk_third_party": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "x-game",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ThirdPartyLinkRequest"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/v1/oauth/pool": {
-            "post": {
-                "operationId": "PoolOAuth",
-                "responses": {
-                    "200": {
-                        "description": "Success response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AuthResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Api key is not valid"
-                    }
-                },
-                "summary": "Initialize OAuth.",
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "query",
-                        "name": "key",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ]
-            }
-        },
-        "/iam/v1/oauth/login_id_token": {
-            "post": {
-                "operationId": "LoginWithIdToken",
-                "responses": {
-                    "200": {
-                        "description": "Ok",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AuthResponse"
-                                },
-                                "examples": {
-                                    "Example 1": {
-                                        "value": {
-                                            "player": {
-                                                "id": "pla_...",
-                                                "object": "player",
-                                                "createdAt": 1234567890,
-                                                "linkedAccounts": [
-                                                    {
-                                                        "provider": "email",
-                                                        "email": "jaume@openfort.xyz",
-                                                        "disabled": false
-                                                    }
-                                                ]
-                                            },
-                                            "token": "abcd....",
-                                            "refreshToken": "efgh...."
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": ""
-                    }
-                },
-                "summary": "Authenticate player with oauth token.",
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk": []
-                    },
-                    {
-                        "pk_third_party": []
-                    }
-                ],
-                "parameters": [],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/LoginWithIdTokenRequest"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/v1/oauth/third_party": {
-            "post": {
-                "operationId": "ThirdParty",
-                "responses": {
-                    "200": {
-                        "description": "Ok",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AuthPlayerResponse"
-                                },
-                                "examples": {
-                                    "Example 1": {
-                                        "value": {
-                                            "player": {
-                                                "id": "pla_...",
-                                                "object": "player",
-                                                "createdAt": 1234567890,
-                                                "linkedAccounts": [
-                                                    {
-                                                        "provider": "email",
-                                                        "email": "jaume@openfort.xyz",
-                                                        "disabled": false
-                                                    }
-                                                ]
-                                            },
-                                            "token": "abcd....",
-                                            "refreshToken": "efgh...."
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": ""
-                    }
-                },
-                "summary": "Verify oauth token of a third party auth provider.",
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk": []
-                    },
-                    {
-                        "pk_third_party": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "x-game",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ThirdPartyOAuthRequest"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/v1/oauth/verify": {
-            "post": {
-                "operationId": "VerifyOAuthToken",
-                "responses": {
-                    "200": {
-                        "description": "Ok",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PlayerResponse"
-                                },
-                                "examples": {
-                                    "Example 1": {
-                                        "value": {
-                                            "id": "pla_00000000-0000-0000-0000-000000000000",
-                                            "createdAt": 1689869074,
-                                            "object": "player",
-                                            "description": "John Smith",
-                                            "metadata": {
-                                                "firstName": "John",
-                                                "lastName": "Smith"
-                                            },
-                                            "name": "My Player",
-                                            "accounts": [
-                                                {
-                                                    "id": "acc_8888888888-8888-8888-8888-888888888888"
-                                                }
-                                            ],
-                                            "transactionIntents": [
-                                                {
-                                                    "id": "tin_AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA"
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": ""
-                    }
-                },
-                "description": "The endpoint verifies the token generated by OAuth provider and retrieves a corresponding player.\n\nReturns the latest 10 transaction intents for the player.",
-                "summary": "Retrieve player by oauth token.",
-                "tags": [
-                    "AdminAuthentication",
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "sk": []
-                    }
-                ],
-                "parameters": [],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/AuthenticateOAuthRequest"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/v1/oauth/unlink": {
-            "post": {
-                "operationId": "UnlinkOAuth",
-                "responses": {
-                    "200": {
-                        "description": "Ok",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AuthPlayerResponse"
-                                },
-                                "examples": {
-                                    "Example 1": {
-                                        "value": {
-                                            "id": "pla_...",
-                                            "object": "player",
-                                            "createdAt": 1234567890,
-                                            "linkedAccounts": [
-                                                {
-                                                    "provider": "email",
-                                                    "email": "jaume@openfort.xyz",
-                                                    "disabled": false
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": ""
-                    }
-                },
-                "summary": "Unlink OAuth account",
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk_access_token": []
-                    },
-                    {
-                        "pk_third_party": []
-                    }
-                ],
-                "parameters": [],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UnlinkOAuthRequest"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/iam/v1/guest": {
-            "post": {
-                "operationId": "RegisterGuest",
-                "responses": {
-                    "201": {
-                        "description": "Success response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AuthResponse"
-                                },
-                                "examples": {
-                                    "Example 1": {
-                                        "value": {
-                                            "player": {
-                                                "id": "pla_...",
-                                                "object": "player",
-                                                "createdAt": 1234567890,
-                                                "linkedAccounts": [
-                                                    {
-                                                        "provider": "email",
-                                                        "email": "jaume@openfort.xyz",
-                                                        "disabled": false
-                                                    }
-                                                ]
-                                            },
-                                            "token": "abcd....",
-                                            "refreshToken": "efgh...."
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Api key is not valid"
-                    },
-                    "409": {
-                        "description": "User already exists"
-                    }
-                },
-                "description": "Create a guest player.",
-                "summary": "Create a guest player.",
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "x-game",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ]
-            }
-        },
-        "/iam/v1/{publishable_key}/jwks.json": {
-            "get": {
-                "operationId": "GetJwks",
-                "responses": {
-                    "200": {
-                        "description": "Successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/JwtKeyResponse"
-                                },
-                                "examples": {
-                                    "Example 1": {
-                                        "value": {
-                                            "keys": [
-                                                {
-                                                    "kty": "EC",
-                                                    "x": "rUNYXnOcdImB6lRAMwq1lNaZ8wc5Giqa_jLeO0ChKac",
-                                                    "y": "vl9yeaTYJXCMY1283SRrOBHXwpvqLjrITGjvqF-cshQ",
-                                                    "crv": "P-256",
-                                                    "kid": "_VqPj1iUH1ij6gRNjYnY4uNc083QYdNxc4h-FlnhWqs",
-                                                    "use": "sig",
-                                                    "alg": "ES256"
-                                                },
-                                                {
-                                                    "kty": "EC",
-                                                    "x": "RzfDvBCyE9UR_-0wiIMtSHiAlnBIfLvYhCMLxrAb4xo",
-                                                    "y": "h07rmvlyRsqhOGfapJqMy8NgqVyhwy6Iz2VlNbvpiOA",
-                                                    "crv": "P-256",
-                                                    "kid": "z6rhkcbjp_G2wAck3L_sKoQAWMofLsxVYnYIru17Ps4",
-                                                    "use": "sig",
-                                                    "alg": "ES256"
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "description": "Get the jwks.json file.\n\nYou can use the jwks.json file to verify the signature of a JWT token issued by Openfort Auth.",
-                "summary": "Get the jwks.json file.",
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [],
-                "parameters": [
-                    {
-                        "description": "Specifies the project publishable key (starts with pk_).",
-                        "in": "path",
-                        "name": "publishable_key",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "pk_test_4194ad24-c818-4e5c-b003-9cc2aa7df53b"
-                    }
-                ]
-            }
-        },
-        "/iam/v1/me": {
-            "get": {
-                "operationId": "Me",
-                "responses": {
-                    "200": {
-                        "description": "Successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AuthPlayerResponse"
-                                },
-                                "examples": {
-                                    "Example 1": {
-                                        "value": {
-                                            "id": "pla_...",
-                                            "object": "player",
-                                            "createdAt": 1234567890,
-                                            "linkedAccounts": [
-                                                {
-                                                    "provider": "email",
-                                                    "email": "jaume@openfort.xyz",
-                                                    "disabled": false
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Error response."
-                    }
-                },
-                "tags": [
-                    "auth v1"
-                ],
-                "security": [
-                    {
-                        "pk_access_token": []
-                    },
-                    {
-                        "pk_third_party": []
-                    }
-                ],
-                "parameters": []
             }
         },
         "/iam/v2/me": {
@@ -22996,20 +22526,6 @@
                 "type": "object",
                 "additionalProperties": false
             },
-            "LoginOIDCRequest": {
-                "properties": {
-                    "identityToken": {
-                        "type": "string",
-                        "description": "The identity token of the user.",
-                        "example": "token"
-                    }
-                },
-                "required": [
-                    "identityToken"
-                ],
-                "type": "object",
-                "additionalProperties": false
-            },
             "OAuthResponse": {
                 "properties": {
                     "url": {
@@ -24642,33 +24158,6 @@
                 },
                 "required": [
                     "keys"
-                ],
-                "type": "object",
-                "additionalProperties": false
-            },
-            "AuthenticatedPlayerResponse": {
-                "properties": {
-                    "player": {
-                        "$ref": "#/components/schemas/AuthPlayerResponse",
-                        "description": "Player's identifier."
-                    }
-                },
-                "required": [
-                    "player"
-                ],
-                "type": "object",
-                "additionalProperties": false
-            },
-            "AuthorizePlayerRequest": {
-                "properties": {
-                    "authorizationCode": {
-                        "type": "string",
-                        "description": "The authorization code received from the api to authorize the project to use the Ecosystem player.",
-                        "example": "d9e215f74e715853"
-                    }
-                },
-                "required": [
-                    "authorizationCode"
                 ],
                 "type": "object",
                 "additionalProperties": false
