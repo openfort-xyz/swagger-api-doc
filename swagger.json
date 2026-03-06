@@ -20,7 +20,7 @@
     "security": [
         {
             "apiKeyCookie": [],
-            "bearerAuth": []
+            "better_auth": []
         }
     ],
     "tags": [],
@@ -3101,92 +3101,6 @@
             }
         },
         "/v2/accounts/backend": {
-            "get": {
-                "operationId": "listBackendWallets",
-                "responses": {
-                    "200": {
-                        "description": "Successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BackendWalletListResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized."
-                    }
-                },
-                "description": "List backend wallets.\n\nReturns a paginated list of backend wallets for the project.",
-                "summary": "List backend wallets.",
-                "tags": [
-                    "Backend Wallets"
-                ],
-                "security": [
-                    {
-                        "sk": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "description": "Number of wallets to return (default: 10, max: 100).",
-                        "in": "query",
-                        "name": "limit",
-                        "required": false,
-                        "schema": {
-                            "format": "int32",
-                            "type": "integer"
-                        },
-                        "example": 10
-                    },
-                    {
-                        "description": "Number of wallets to skip (for pagination).",
-                        "in": "query",
-                        "name": "skip",
-                        "required": false,
-                        "schema": {
-                            "format": "int32",
-                            "type": "integer"
-                        },
-                        "example": 0
-                    },
-                    {
-                        "description": "Filter by chain type.",
-                        "in": "query",
-                        "name": "chainType",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "EVM",
-                                "SVM"
-                            ]
-                        },
-                        "example": "EVM"
-                    },
-                    {
-                        "description": "Filter by wallet address.",
-                        "in": "query",
-                        "name": "address",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
-                    },
-                    {
-                        "description": "Filter by associated wallet ID (starts with `pla_`).",
-                        "in": "query",
-                        "name": "wallet",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "pla_e0b84653-1741-4a3d-9e91-2b0fd2942f60"
-                    }
-                ]
-            },
             "post": {
                 "operationId": "createBackendWallet",
                 "responses": {
@@ -3228,103 +3142,6 @@
             }
         },
         "/v2/accounts/backend/{id}": {
-            "get": {
-                "operationId": "getBackendWallet",
-                "responses": {
-                    "200": {
-                        "description": "Successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BackendWalletResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized."
-                    },
-                    "404": {
-                        "description": "Wallet not found."
-                    }
-                },
-                "description": "Get backend wallet details.\n\nReturns details for a specific backend wallet.",
-                "summary": "Get backend wallet.",
-                "tags": [
-                    "Backend Wallets"
-                ],
-                "security": [
-                    {
-                        "sk": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "description": "The wallet ID (starts with acc_).",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ]
-            },
-            "put": {
-                "operationId": "updateBackendWallet",
-                "responses": {
-                    "200": {
-                        "description": "Successful response.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/UpdateBackendWalletResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request."
-                    },
-                    "401": {
-                        "description": "Unauthorized."
-                    },
-                    "404": {
-                        "description": "Wallet not found."
-                    }
-                },
-                "description": "Update a backend wallet.\n\nCurrently supports upgrading an EOA backend wallet to a Delegated Account (EIP-7702).\nProvide the target accountType along with the required delegation parameters (chainId, implementationType).",
-                "summary": "Update backend wallet.",
-                "tags": [
-                    "Backend Wallets"
-                ],
-                "security": [
-                    {
-                        "sk": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "description": "The wallet ID (starts with acc_).",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UpdateBackendWalletRequest"
-                            }
-                        }
-                    }
-                }
-            },
             "delete": {
                 "operationId": "deleteBackendWallet",
                 "responses": {
@@ -4162,10 +3979,20 @@
                 "operationId": "socialSignIn",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -4435,18 +4262,18 @@
                 "summary": "Get the current session.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
                 "parameters": [
                     {
                         "name": "x-project-key",
                         "in": "header",
-                        "required": false,
+                        "required": true,
                         "schema": {
                             "type": "string"
                         },
-                        "description": "Project public key (format: pk_{mode}_{uuid}). Required for authentication but typically provided via middleware."
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
                     },
                     {
                         "name": "disableCookieCache",
@@ -4589,10 +4416,20 @@
                 "summary": "Sign out.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -4727,10 +4564,20 @@
                 "summary": "Sign up with email and password.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -4918,10 +4765,20 @@
                 "summary": "Sign in with email and password.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -5136,10 +4993,20 @@
                 "summary": "Forget password.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -5291,10 +5158,20 @@
                 "summary": "Reset password.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -5438,7 +5315,7 @@
                 "summary": "Verify email.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
                 "parameters": [
@@ -5632,10 +5509,20 @@
                 "summary": "Send verification email.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -5786,10 +5673,20 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -5966,10 +5863,20 @@
                 "summary": "Change password.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -6131,7 +6038,7 @@
                 "summary": "Reset password callback.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
                 "parameters": [
@@ -6277,10 +6184,20 @@
                 "summary": "Request password reset.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -6432,10 +6349,20 @@
                 "summary": "List sessions.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -6558,10 +6485,20 @@
                 "summary": "Revoke session.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -6708,10 +6645,20 @@
                 "summary": "Revoke sessions.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -6850,10 +6797,20 @@
                 "summary": "Revoke other sessions.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -6992,10 +6949,20 @@
                 "summary": "Link social account.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -7207,10 +7174,20 @@
                 "summary": "List lined accounts.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -7371,10 +7348,20 @@
                 "summary": "Unlink account.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -7516,10 +7503,20 @@
                 "summary": "Refresh access token.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -7675,10 +7672,20 @@
                 "summary": "Get access token.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -7834,10 +7841,20 @@
                 "summary": "Get account info.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -8012,10 +8029,20 @@
                 "summary": "Anonymous sign in.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Sign in anonymously",
@@ -8148,10 +8175,20 @@
                 "summary": "Sign in with phone.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -8298,10 +8335,20 @@
                 "summary": "Send OTP to phone number.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -8445,10 +8492,20 @@
                 "summary": "Verify phone OTP.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -8662,10 +8719,20 @@
                 "summary": "Reset password reset with phone(forget password flow).",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -8816,10 +8883,20 @@
                 "summary": "Request password reset with phone.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -8969,10 +9046,20 @@
                 "summary": "Reset password with phone OTP.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -9121,10 +9208,20 @@
                 "summary": "Request email verification with OTP.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -9274,10 +9371,20 @@
                 "summary": "Check email OTP.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -9436,10 +9543,20 @@
                 "summary": "Verify email with OTP.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -9605,10 +9722,20 @@
                 "summary": "Sign in with email OTP.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -9765,10 +9892,20 @@
                 "summary": "Request password reset with email OTP.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -9913,10 +10050,20 @@
                 "summary": "Reset password with email OTP.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -10065,10 +10212,20 @@
                 "summary": "Initialize SIWE login.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -10181,10 +10338,20 @@
                 "summary": "Login with SIWE.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -10349,10 +10516,20 @@
                 "description": "Generates a cryptographically secure nonce for creating a SIWE message to link a wallet to the current authenticated user. Requires active session.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -10465,10 +10642,20 @@
                 "description": "Verifies the SIWE signature and links the wallet to the currently authenticated user. Requires active session.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -10653,10 +10840,20 @@
                 "description": "Get all SIWE wallets linked to the authenticated user with full wallet metadata including primary status and chain information. Requires active session.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Wallets retrieved successfully",
@@ -10749,10 +10946,20 @@
                 "description": "Remove a linked wallet from the authenticated user account. If the wallet being unlinked is the primary wallet, another wallet will be automatically promoted to primary. Requires active session.",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "better_auth": []
                     }
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "x-project-key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Publishable key to identify the project. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live)."
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -17008,6 +17215,13 @@
                     },
                     "active": {
                         "type": "boolean"
+                    },
+                    "ownerAddress": {
+                        "type": "string"
+                    },
+                    "chainId": {
+                        "type": "number",
+                        "format": "double"
                     }
                 },
                 "required": [
@@ -17095,7 +17309,7 @@
                             "Developer",
                             "User"
                         ],
-                        "description": "Indicates key custody: \"Developer\" for server-managed keys (WALLTEE), \"User\" for user-managed keys (DB).",
+                        "description": "Indicates key custody: \"Developer\" for TEE managed keys, \"User\" for user-managed keys.",
                         "example": "Developer"
                     },
                     "recoveryShare": {
@@ -19600,155 +19814,6 @@
                 "type": "object",
                 "additionalProperties": false
             },
-            "BackendWalletResponse": {
-                "description": "Backend wallet details response.",
-                "properties": {
-                    "object": {
-                        "type": "string",
-                        "enum": [
-                            "backendWallet"
-                        ],
-                        "nullable": false,
-                        "description": "The type of object."
-                    },
-                    "id": {
-                        "type": "string",
-                        "description": "The wallet ID (starts with `acc_`).",
-                        "example": "acc_e0b84653-1741-4a3d-9e91-2b0fd2942f60"
-                    },
-                    "address": {
-                        "type": "string",
-                        "description": "The wallet address.",
-                        "example": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
-                    },
-                    "chainType": {
-                        "type": "string",
-                        "enum": [
-                            "EVM",
-                            "SVM"
-                        ],
-                        "description": "The chain type the wallet is associated with.",
-                        "example": "EVM"
-                    },
-                    "custody": {
-                        "type": "string",
-                        "enum": [
-                            "Developer"
-                        ],
-                        "nullable": false,
-                        "description": "Key custody: always \"Developer\" for backend wallets (server-managed keys in TEE).",
-                        "example": "Developer"
-                    },
-                    "createdAt": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Creation timestamp (Unix epoch seconds)."
-                    },
-                    "updatedAt": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Last updated timestamp (Unix epoch seconds)."
-                    }
-                },
-                "required": [
-                    "object",
-                    "id",
-                    "address",
-                    "chainType",
-                    "custody",
-                    "createdAt",
-                    "updatedAt"
-                ],
-                "type": "object",
-                "additionalProperties": false
-            },
-            "BackendWalletListResponse": {
-                "description": "List of backend wallets response.",
-                "properties": {
-                    "object": {
-                        "type": "string",
-                        "enum": [
-                            "list"
-                        ],
-                        "nullable": false,
-                        "description": "The type of object."
-                    },
-                    "url": {
-                        "type": "string",
-                        "description": "API endpoint URL."
-                    },
-                    "data": {
-                        "items": {
-                            "$ref": "#/components/schemas/BackendWalletResponse"
-                        },
-                        "type": "array",
-                        "description": "List of backend wallets."
-                    },
-                    "start": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Starting index."
-                    },
-                    "end": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Ending index."
-                    },
-                    "total": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Total number of wallets."
-                    }
-                },
-                "required": [
-                    "object",
-                    "url",
-                    "data",
-                    "start",
-                    "end",
-                    "total"
-                ],
-                "type": "object",
-                "additionalProperties": false
-            },
-            "BackendWalletListQueries": {
-                "description": "Query parameters for listing backend wallets.",
-                "properties": {
-                    "limit": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Number of wallets to return (default: 10, max: 100).",
-                        "example": 10
-                    },
-                    "skip": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Number of wallets to skip (for pagination).",
-                        "example": 0
-                    },
-                    "chainType": {
-                        "type": "string",
-                        "enum": [
-                            "EVM",
-                            "SVM"
-                        ],
-                        "description": "Filter by chain type.",
-                        "example": "EVM"
-                    },
-                    "address": {
-                        "type": "string",
-                        "description": "Filter by wallet address.",
-                        "example": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
-                    },
-                    "wallet": {
-                        "type": "string",
-                        "description": "Filter by associated wallet ID (starts with `pla_`).",
-                        "example": "pla_e0b84653-1741-4a3d-9e91-2b0fd2942f60"
-                    }
-                },
-                "type": "object",
-                "additionalProperties": false
-            },
             "CreateBackendWalletResponse": {
                 "description": "Response from creating a new backend wallet account.",
                 "properties": {
@@ -19770,6 +19835,11 @@
                         "description": "The wallet address generated for this account.",
                         "example": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
                     },
+                    "walletId": {
+                        "type": "string",
+                        "description": "The wallet ID",
+                        "example": "pla_6f6c9067-89fa-4fc8-ac72-c242a268c584"
+                    },
                     "chainType": {
                         "type": "string",
                         "enum": [
@@ -19789,6 +19859,7 @@
                     "object",
                     "id",
                     "address",
+                    "walletId",
                     "chainType",
                     "createdAt"
                 ],
@@ -19815,166 +19886,6 @@
                 },
                 "required": [
                     "chainType"
-                ],
-                "type": "object",
-                "additionalProperties": false
-            },
-            "UpdateBackendWalletResponse": {
-                "description": "Response from updating a backend wallet.",
-                "properties": {
-                    "object": {
-                        "type": "string",
-                        "enum": [
-                            "backendWallet"
-                        ],
-                        "nullable": false,
-                        "description": "The type of object."
-                    },
-                    "id": {
-                        "type": "string",
-                        "description": "The wallet ID (starts with `acc_`).",
-                        "example": "acc_e0b84653-1741-4a3d-9e91-2b0fd2942f60"
-                    },
-                    "address": {
-                        "type": "string",
-                        "description": "The wallet address.",
-                        "example": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
-                    },
-                    "chainType": {
-                        "type": "string",
-                        "enum": [
-                            "EVM",
-                            "SVM"
-                        ],
-                        "description": "The chain type the wallet is associated with.",
-                        "example": "EVM"
-                    },
-                    "custody": {
-                        "type": "string",
-                        "enum": [
-                            "Developer"
-                        ],
-                        "nullable": false,
-                        "description": "Key custody: always \"Developer\" for backend wallets (server-managed keys in TEE).",
-                        "example": "Developer"
-                    },
-                    "accountType": {
-                        "type": "string",
-                        "description": "The current account type.",
-                        "example": "Delegated Account"
-                    },
-                    "createdAt": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Creation timestamp (Unix epoch seconds)."
-                    },
-                    "updatedAt": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Last updated timestamp (Unix epoch seconds)."
-                    },
-                    "delegatedAccount": {
-                        "properties": {
-                            "chain": {
-                                "properties": {
-                                    "chainId": {
-                                        "type": "integer",
-                                        "format": "int32",
-                                        "description": "The chain ID.",
-                                        "example": 8453
-                                    },
-                                    "chainType": {
-                                        "type": "string",
-                                        "enum": [
-                                            "EVM",
-                                            "SVM"
-                                        ],
-                                        "description": "The chain type.",
-                                        "example": "EVM"
-                                    }
-                                },
-                                "required": [
-                                    "chainId",
-                                    "chainType"
-                                ],
-                                "type": "object",
-                                "description": "The chain configuration for this delegation."
-                            },
-                            "implementationAddress": {
-                                "type": "string",
-                                "description": "The implementation contract address.",
-                                "example": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
-                            },
-                            "implementationType": {
-                                "type": "string",
-                                "description": "The implementation type used for delegation.",
-                                "example": "Calibur"
-                            },
-                            "id": {
-                                "type": "string",
-                                "description": "The delegated account ID (starts with `acc_`).",
-                                "example": "acc_e0b84653-1741-4a3d-9e91-2b0fd2942f60"
-                            }
-                        },
-                        "required": [
-                            "chain",
-                            "implementationAddress",
-                            "implementationType",
-                            "id"
-                        ],
-                        "type": "object",
-                        "description": "Present when the wallet has been upgraded to a delegated account."
-                    }
-                },
-                "required": [
-                    "object",
-                    "id",
-                    "address",
-                    "chainType",
-                    "custody",
-                    "accountType",
-                    "createdAt",
-                    "updatedAt"
-                ],
-                "type": "object",
-                "additionalProperties": false
-            },
-            "UpdateBackendWalletRequest": {
-                "description": "Request to update a backend wallet.\n\nAll fields are optional — only provide the fields you want to update.\nCurrently supports upgrading to a Delegated Account (EIP-7702).",
-                "properties": {
-                    "accountType": {
-                        "type": "string",
-                        "enum": [
-                            "Delegated Account"
-                        ],
-                        "nullable": false,
-                        "description": "Upgrade the account type. Currently only supports upgrading to \"Delegated Account\".",
-                        "example": "Delegated Account"
-                    },
-                    "chainType": {
-                        "type": "string",
-                        "enum": [
-                            "EVM",
-                            "SVM"
-                        ],
-                        "description": "The chain type.",
-                        "example": "EVM"
-                    },
-                    "chainId": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "The chain ID. Must be a [supported chain](/development/chains).",
-                        "example": 8453
-                    },
-                    "implementationType": {
-                        "type": "string",
-                        "description": "The implementation type for delegation (e.g., \"Calibur\", \"CaliburV9\").\nRequired when accountType is \"Delegated Account\".",
-                        "example": "Calibur"
-                    }
-                },
-                "required": [
-                    "chainType",
-                    "chainId"
                 ],
                 "type": "object",
                 "additionalProperties": false
@@ -20113,6 +20024,11 @@
                         "description": "The wallet address derived from the imported private key.",
                         "example": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
                     },
+                    "walletId": {
+                        "type": "string",
+                        "description": "The wallet ID",
+                        "example": "pla_6f6c9067-89fa-4fc8-ac72-c242a268c584"
+                    },
                     "chainType": {
                         "type": "string",
                         "enum": [
@@ -20132,6 +20048,7 @@
                     "object",
                     "id",
                     "address",
+                    "walletId",
                     "createdAt"
                 ],
                 "type": "object",
@@ -20374,7 +20291,7 @@
                             "Developer",
                             "User"
                         ],
-                        "description": "Indicates key custody: \"Developer\" for server-managed keys (WALLTEE), \"User\" for user-managed keys (DB).",
+                        "description": "Indicates key custody: \"Developer\" for TEE managed keys, \"User\" for user-managed keys.",
                         "example": "Developer"
                     }
                 },
@@ -20567,7 +20484,7 @@
                     },
                     "user": {
                         "type": "string",
-                        "description": "ID of the user this account belongs to (starts with `usr_`). If none is provided, a new user will be created.",
+                        "description": "ID of the user this account belongs to (starts with `usr_`). Also might take wallet ID (starts with `pla_`)",
                         "example": "usr_e0b84653-1741-4a3d-9e91-2b0fd2942f60"
                     },
                     "account": {
@@ -24414,11 +24331,43 @@
         "securitySchemes": {
             "pk": {
                 "type": "http",
-                "scheme": "bearer"
+                "scheme": "bearer",
+                "description": "Publishable Key authentication. Use your publishable API key as the bearer token. Format: pk_test_<uuid> (sandbox) or pk_live_<uuid> (live). Used for client-side SDK operations."
             },
             "sk": {
                 "type": "http",
-                "scheme": "bearer"
+                "scheme": "bearer",
+                "description": "Secret Key authentication. Use your secret API key as the bearer token. Format: sk_test_<uuid> (sandbox) or sk_live_<uuid> (live). Used for server-to-server operations. Keep this key confidential."
+            },
+            "pk_access_token": {
+                "type": "http",
+                "scheme": "bearer",
+                "description": "Player Access Token authentication. Requires two headers: (1) Authorization: Bearer <publishable_key> (pk_test_<uuid> or pk_live_<uuid>), and (2) x-player-token: <JWT> — a user session token issued by the project's auth system."
+            },
+            "pk_third_party": {
+                "type": "http",
+                "scheme": "bearer",
+                "description": "Third-Party OAuth authentication. Requires three headers: (1) Authorization: Bearer <publishable_key> (pk_test_<uuid> or pk_live_<uuid>), (2) x-auth-provider: <provider_name> (e.g., firebase, accelbyte, lootlocker, playfab, custom, supabase, oidc), and (3) x-player-token: <provider_token>."
+            },
+            "better_auth": {
+                "type": "http",
+                "scheme": "bearer",
+                "description": "Better Auth session authentication (V2 auth). Requires two headers: (1) Authorization: Bearer <session_token> (a signed Better Auth session token), and (2) x-project-key: <publishable_key> (pk_test_<uuid> or pk_live_<uuid>)."
+            },
+            "wallet_auth": {
+                "type": "http",
+                "scheme": "bearer",
+                "description": "Wallet Auth for TEE wallet operations. Requires two headers: (1) Authorization: Bearer <secret_key> (sk_test_<uuid> or sk_live_<uuid>), and (2) x-wallet-auth: <ES256_JWT> containing claims for key_id, nonce (jti), and reqHash for request integrity."
+            },
+            "user_project": {
+                "type": "http",
+                "scheme": "bearer",
+                "description": "Dashboard User-Project authentication (internal). Requires three headers: (1) Authorization: Bearer <supabase_jwt>, (2) project: <project_uuid>, and (3) environment: 'live' or 'test'."
+            },
+            "user": {
+                "type": "http",
+                "scheme": "bearer",
+                "description": "Dashboard User authentication (internal). Requires: Authorization: Bearer <supabase_jwt>. Optionally accepts project and environment headers for project-scoped operations."
             }
         }
     },
