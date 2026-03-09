@@ -20,7 +20,7 @@
     "security": [
         {
             "apiKeyCookie": [],
-            "better_auth": []
+            "auth_token": []
         }
     ],
     "tags": [],
@@ -508,7 +508,7 @@
                         "pk_access_token": []
                     },
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -663,7 +663,7 @@
                         "pk_access_token": []
                     },
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -776,7 +776,7 @@
                         "pk_access_token": []
                     },
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [],
@@ -1142,7 +1142,7 @@
                         "pk_access_token": []
                     },
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -1233,7 +1233,7 @@
                         "pk_access_token": []
                     },
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -1321,7 +1321,7 @@
                         "sk": []
                     },
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -3500,7 +3500,7 @@
                         "user_project": []
                     },
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -3688,7 +3688,7 @@
                         "user_project": []
                     },
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -3740,7 +3740,7 @@
                         "user_project": []
                     },
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -3833,7 +3833,7 @@
                         "sk": []
                     },
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [],
@@ -3898,7 +3898,7 @@
                         "pk_third_party": []
                     },
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": []
@@ -3979,7 +3979,7 @@
                 "operationId": "socialSignIn",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -4262,7 +4262,7 @@
                 "summary": "Get the current session.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -4416,7 +4416,7 @@
                 "summary": "Sign out.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -4564,7 +4564,7 @@
                 "summary": "Sign up with email and password.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -4765,7 +4765,7 @@
                 "summary": "Sign in with email and password.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -4993,7 +4993,7 @@
                 "summary": "Forget password.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -5158,7 +5158,7 @@
                 "summary": "Reset password.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -5315,7 +5315,7 @@
                 "summary": "Verify email.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -5509,7 +5509,7 @@
                 "summary": "Send verification email.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -5673,7 +5673,7 @@
                 ],
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -5863,7 +5863,7 @@
                 "summary": "Change password.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -6038,7 +6038,7 @@
                 "summary": "Reset password callback.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -6184,7 +6184,7 @@
                 "summary": "Request password reset.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -6349,7 +6349,7 @@
                 "summary": "List sessions.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -6485,7 +6485,7 @@
                 "summary": "Revoke session.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -6645,7 +6645,7 @@
                 "summary": "Revoke sessions.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -6797,7 +6797,7 @@
                 "summary": "Revoke other sessions.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -6949,7 +6949,7 @@
                 "summary": "Link social account.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -7174,7 +7174,7 @@
                 "summary": "List lined accounts.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -7348,7 +7348,7 @@
                 "summary": "Unlink account.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -7503,7 +7503,7 @@
                 "summary": "Refresh access token.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -7672,7 +7672,7 @@
                 "summary": "Get access token.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -7841,7 +7841,7 @@
                 "summary": "Get account info.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -8029,7 +8029,7 @@
                 "summary": "Anonymous sign in.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -8175,7 +8175,7 @@
                 "summary": "Sign in with phone.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -8335,7 +8335,7 @@
                 "summary": "Send OTP to phone number.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -8492,7 +8492,7 @@
                 "summary": "Verify phone OTP.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -8719,7 +8719,7 @@
                 "summary": "Reset password reset with phone(forget password flow).",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -8883,7 +8883,7 @@
                 "summary": "Request password reset with phone.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -9046,7 +9046,7 @@
                 "summary": "Reset password with phone OTP.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -9208,7 +9208,7 @@
                 "summary": "Request email verification with OTP.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -9371,7 +9371,7 @@
                 "summary": "Check email OTP.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -9543,7 +9543,7 @@
                 "summary": "Verify email with OTP.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -9722,7 +9722,7 @@
                 "summary": "Sign in with email OTP.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -9892,7 +9892,7 @@
                 "summary": "Request password reset with email OTP.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -10050,7 +10050,7 @@
                 "summary": "Reset password with email OTP.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -10212,7 +10212,7 @@
                 "summary": "Initialize SIWE login.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -10338,7 +10338,7 @@
                 "summary": "Login with SIWE.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -10516,7 +10516,7 @@
                 "description": "Generates a cryptographically secure nonce for creating a SIWE message to link a wallet to the current authenticated user. Requires active session.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -10642,7 +10642,7 @@
                 "description": "Verifies the SIWE signature and links the wallet to the currently authenticated user. Requires active session.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -10840,7 +10840,7 @@
                 "description": "Get all SIWE wallets linked to the authenticated user with full wallet metadata including primary status and chain information. Requires active session.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -10946,7 +10946,7 @@
                 "description": "Remove a linked wallet from the authenticated user account. If the wallet being unlinked is the primary wallet, another wallet will be automatically promoted to primary. Requires active session.",
                 "security": [
                     {
-                        "better_auth": []
+                        "auth_token": []
                     }
                 ],
                 "parameters": [
@@ -24349,10 +24349,10 @@
                 "scheme": "bearer",
                 "description": "Third-Party OAuth authentication. Requires three headers: (1) Authorization: Bearer <publishable_key> (pk_test_<uuid> or pk_live_<uuid>), (2) x-auth-provider: <provider_name> (e.g., firebase, accelbyte, lootlocker, playfab, custom, supabase, oidc), and (3) x-player-token: <provider_token>."
             },
-            "better_auth": {
+            "auth_token": {
                 "type": "http",
                 "scheme": "bearer",
-                "description": "Better Auth session authentication (V2 auth). Requires two headers: (1) Authorization: Bearer <session_token> (a signed Better Auth session token), and (2) x-project-key: <publishable_key> (pk_test_<uuid> or pk_live_<uuid>)."
+                "description": "Auth session token (V2 auth). Requires two headers: (1) Authorization: Bearer <session_token>, and (2) x-project-key: <publishable_key> (pk_test_<uuid> or pk_live_<uuid>)."
             },
             "wallet_auth": {
                 "type": "http",
