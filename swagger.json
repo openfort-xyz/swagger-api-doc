@@ -3970,7 +3970,7 @@
                 }
             }
         },
-        "/sign-in/social": {
+        "/iam/v2/auth/sign-in/social": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -4245,7 +4245,7 @@
                 }
             }
         },
-        "/get-session": {
+        "/iam/v2/auth/get-session": {
             "get": {
                 "tags": [
                     "auth v2"
@@ -4391,7 +4391,7 @@
                 }
             }
         },
-        "/sign-out": {
+        "/iam/v2/auth/sign-out": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -4530,7 +4530,7 @@
                 }
             }
         },
-        "/sign-up/email": {
+        "/iam/v2/auth/sign-up/email": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -4722,7 +4722,7 @@
                 }
             }
         },
-        "/sign-in/email": {
+        "/iam/v2/auth/sign-in/email": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -4941,7 +4941,7 @@
                 }
             }
         },
-        "/forget-password": {
+        "/iam/v2/auth/forget-password": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -5097,7 +5097,7 @@
                 }
             }
         },
-        "/reset-password": {
+        "/iam/v2/auth/reset-password": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -5245,7 +5245,7 @@
                 }
             }
         },
-        "/verify-email": {
+        "/iam/v2/auth/verify-email": {
             "get": {
                 "tags": [
                     "auth v2"
@@ -5440,7 +5440,7 @@
                 }
             }
         },
-        "/send-verification-email": {
+        "/iam/v2/auth/send-verification-email": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -5595,7 +5595,7 @@
                 }
             }
         },
-        "/change-email": {
+        "/iam/v2/auth/change-email": {
             "post": {
                 "description": "Change user's email",
                 "summary": "Change email.",
@@ -5776,7 +5776,7 @@
                 }
             }
         },
-        "/change-password": {
+        "/iam/v2/auth/change-password": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -5942,7 +5942,7 @@
                 }
             }
         },
-        "/reset-password/{token}": {
+        "/iam/v2/auth/reset-password/{token}": {
             "get": {
                 "tags": [
                     "auth v2"
@@ -6089,7 +6089,7 @@
                 }
             }
         },
-        "/request-password-reset": {
+        "/iam/v2/auth/request-password-reset": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -6245,7 +6245,7 @@
                 }
             }
         },
-        "/list-sessions": {
+        "/iam/v2/auth/list-sessions": {
             "get": {
                 "tags": [
                     "auth v2"
@@ -6372,7 +6372,7 @@
                 }
             }
         },
-        "/revoke-session": {
+        "/iam/v2/auth/revoke-session": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -6523,7 +6523,7 @@
                 }
             }
         },
-        "/revoke-sessions": {
+        "/iam/v2/auth/revoke-sessions": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -6666,7 +6666,7 @@
                 }
             }
         },
-        "/revoke-other-sessions": {
+        "/iam/v2/auth/revoke-other-sessions": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -6809,7 +6809,7 @@
                 }
             }
         },
-        "/link-social": {
+        "/iam/v2/auth/link-social": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -7025,7 +7025,7 @@
                 }
             }
         },
-        "/list-accounts": {
+        "/iam/v2/auth/list-accounts": {
             "get": {
                 "tags": [
                     "auth v2"
@@ -7190,7 +7190,7 @@
                 }
             }
         },
-        "/unlink-account": {
+        "/iam/v2/auth/unlink-account": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -7336,7 +7336,7 @@
                 }
             }
         },
-        "/refresh-token": {
+        "/iam/v2/auth/refresh-token": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -7496,7 +7496,7 @@
                 }
             }
         },
-        "/get-access-token": {
+        "/iam/v2/auth/get-access-token": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -7656,7 +7656,7 @@
                 }
             }
         },
-        "/account-info": {
+        "/iam/v2/auth/account-info": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -7835,7 +7835,7 @@
                 }
             }
         },
-        "/sign-in/anonymous": {
+        "/iam/v2/auth/sign-in/anonymous": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -7972,7 +7972,7 @@
                 }
             }
         },
-        "/sign-in/phone-number": {
+        "/iam/v2/auth/sign-in/phone-number": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -8123,7 +8123,7 @@
                 }
             }
         },
-        "/phone-number/send-otp": {
+        "/iam/v2/auth/phone-number/send-otp": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -8271,7 +8271,7 @@
                 }
             }
         },
-        "/phone-number/verify": {
+        "/iam/v2/auth/phone-number/verify": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -8489,7 +8489,7 @@
                 }
             }
         },
-        "/phone-number/forget-password": {
+        "/iam/v2/auth/phone-number/forget-password": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -8644,7 +8644,7 @@
                 }
             }
         },
-        "/phone-number/request-password-reset": {
+        "/iam/v2/auth/phone-number/request-password-reset": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -8798,7 +8798,7 @@
                 }
             }
         },
-        "/phone-number/reset-password": {
+        "/iam/v2/auth/phone-number/reset-password": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -8951,7 +8951,7 @@
                 }
             }
         },
-        "/email-otp/send-verification-otp": {
+        "/iam/v2/auth/email-otp/send-verification-otp": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -9104,7 +9104,7 @@
                 }
             }
         },
-        "/email-otp/check-verification-otp": {
+        "/iam/v2/auth/email-otp/check-verification-otp": {
             "post": {
                 "operationId": "checkVerificationOtp",
                 "tags": [
@@ -9268,7 +9268,7 @@
                 }
             }
         },
-        "/email-otp/verify-email": {
+        "/iam/v2/auth/email-otp/verify-email": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -9438,7 +9438,7 @@
                 }
             }
         },
-        "/sign-in/email-otp": {
+        "/iam/v2/auth/sign-in/email-otp": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -9599,7 +9599,7 @@
                 }
             }
         },
-        "/forget-password/email-otp": {
+        "/iam/v2/auth/forget-password/email-otp": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -9748,7 +9748,7 @@
                 }
             }
         },
-        "/email-otp/reset-password": {
+        "/iam/v2/auth/email-otp/reset-password": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -9901,7 +9901,7 @@
                 }
             }
         },
-        "/siwe/nonce": {
+        "/iam/v2/auth/siwe/nonce": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -10018,7 +10018,7 @@
                 }
             }
         },
-        "/siwe/verify": {
+        "/iam/v2/auth/siwe/verify": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -10187,7 +10187,7 @@
                 }
             }
         },
-        "/link-siwe/nonce": {
+        "/iam/v2/auth/link-siwe/nonce": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -10304,7 +10304,7 @@
                 }
             }
         },
-        "/link-siwe/verify": {
+        "/iam/v2/auth/link-siwe/verify": {
             "post": {
                 "tags": [
                     "auth v2"
@@ -10493,7 +10493,7 @@
                 }
             }
         },
-        "/link-siwe/list-wallets": {
+        "/iam/v2/auth/link-siwe/list-wallets": {
             "get": {
                 "tags": [
                     "auth v2"
@@ -10590,7 +10590,7 @@
                 }
             }
         },
-        "/link-siwe/unlink": {
+        "/iam/v2/auth/link-siwe/unlink": {
             "post": {
                 "tags": [
                     "auth v2"
