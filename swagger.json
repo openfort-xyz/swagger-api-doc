@@ -13193,7 +13193,7 @@
                     "expired",
                     "failed"
                 ],
-                "description": "Public lifecycle status of a Solana transaction.\n\nMaps from the internal {@link SponsorshipStatus } enum:\n- ISSUED, MATCHED → \"sent\"\n- CONFIRMED       → \"confirmed\"\n- EXPIRED         → \"expired\"\n- FAILED          → \"failed\""
+                "description": "Lifecycle status of a Solana transaction."
             },
             "SolanaTransactionStatusResponse": {
                 "description": "Solana transaction status response — exposes the on-chain transaction signature\n(hash) and the lifecycle status of the underlying sponsorship row.",
